@@ -20,12 +20,12 @@ public class UserEntity {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long Id;
     @Column (unique = true)
-    private String ussername;
+    private String username;
     private String password;
 
 
     @Column (name = "is_Enable")
-    private boolean isEnable;
+    private boolean isEnabled;
 
     @Column (name = "account_No_Expired")
     private boolean accountNoExpired;

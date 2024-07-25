@@ -64,7 +64,7 @@ public class SpringSecurityAppApplication {
             UserEntity userCesar = UserEntity.builder()
                     .ussername("Cesar")
                     .password("1234")
-                    .isEnable(true)
+                    .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
                     .roles(Set.of(roleDeveloper))
@@ -73,7 +73,7 @@ public class SpringSecurityAppApplication {
             UserEntity userGabriel = UserEntity.builder()
                     .ussername("Gabriel")
                     .password("1234")
-                    .isEnable(true)
+                    .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
                     .roles(Set.of(roleUser))
@@ -82,11 +82,13 @@ public class SpringSecurityAppApplication {
             UserEntity userInvitado = UserEntity.builder()
                     .ussername("Invitado")
                     .password("12345")
-                    .isEnable(true)
+                    .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
                     .roles(Set.of(roleInvited))
                     .build();
+
+            userRepository.saveAll(Set.of(userCesar, userGabriel, userInvitado));
         };
 
 
