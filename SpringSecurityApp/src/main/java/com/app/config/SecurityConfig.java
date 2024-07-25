@@ -1,9 +1,9 @@
 package com.app.config;
 
 
+import com.app.service.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -52,7 +52,8 @@ public class SecurityConfig {
 //                .build();
 //    }
 
-    // CON ANOTACIONES EN EL CONTROLADOR
+
+    // CON ANOTACIONES EN EL CONTROLADOR  para las autorizaciones
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -67,27 +68,23 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
+    // va a la base de datos y me trae usuarios
+    // pasa de provider a UserDetailsService -> a Bd
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(userDetailsService);
 
         return provider;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        List<UserDetails> userDetailsList = new ArrayList<>();
 
-
-        return new InMemoryUserDetailsManager(userDetailsList);
-    }
-
+    // Usar el NoOpPasswordEncoder exclusivamente para prubas ya que esta deprecada
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-//        usar el NoOpPasswordEncoder exclusivamente para prubas ya que esta deprecada
     }
 
 }

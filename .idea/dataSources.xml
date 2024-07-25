@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="SpringSecurity@localhost" uuid="4dd9612e-48a0-44df-a981-103664ec2439">
+    <data-source source="LOCAL" name="SpringSecurity@localhost" uuid="711f3b01-375f-4106-9851-6788436e2c59">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/SpringSecurityApp/src/main/resources/application.properties</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/SpringSecurity</jdbc-url>
       <jdbc-additional-properties>

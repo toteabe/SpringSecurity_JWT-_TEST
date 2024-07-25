@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "permisions")
+@Table(name = "permissions")
 
 
 public class PermisionEntity {

@@ -62,7 +62,7 @@ public class SpringSecurityAppApplication {
             //Creando  Usuarios
 
             UserEntity userCesar = UserEntity.builder()
-                    .ussername("Cesar")
+                    .username("Cesar")
                     .password("1234")
                     .isEnabled(true)
                     .accountNoExpired(true)
@@ -71,7 +71,7 @@ public class SpringSecurityAppApplication {
                     .build();
 
             UserEntity userGabriel = UserEntity.builder()
-                    .ussername("Gabriel")
+                    .username("Gabriel")
                     .password("1234")
                     .isEnabled(true)
                     .accountNoExpired(true)
@@ -80,7 +80,7 @@ public class SpringSecurityAppApplication {
                     .build();
 
             UserEntity userInvitado = UserEntity.builder()
-                    .ussername("Invitado")
+                    .username("Invitado")
                     .password("12345")
                     .isEnabled(true)
                     .accountNoExpired(true)
