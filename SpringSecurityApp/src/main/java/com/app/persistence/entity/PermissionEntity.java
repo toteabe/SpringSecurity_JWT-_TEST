@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name = "permissions")
 
 
-public class PermisionEntity {
+public class PermissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

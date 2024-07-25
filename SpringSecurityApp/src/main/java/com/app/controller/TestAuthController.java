@@ -12,14 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestAuthController {
 
 
+    @GetMapping("/get")
+    @PreAuthorize("permitAll()")
+    public String helloGet() {
+        return "Hello World - GET";
+    }
+
     @GetMapping("/hello")
     @PreAuthorize("permitAll()")
     public String hello() {
         return "Hello World";
     }
 
+
     @GetMapping("/hello-secured")
-    @PreAuthorize("hasAuthority('CREATE')")
+    @PreAuthorize("hasAnyAuthority('READ')")
     public String helloSecured() {
         return "Hello World Secured";
     }

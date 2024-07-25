@@ -26,5 +26,5 @@ public class RoleEntity {
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   // mepear  la tabla que se creará como (role_permisions ), lla clave (role_id) y su foranea ( permision_id)
     @JoinTable (name =" role_permissions" , joinColumns = @JoinColumn (name = "role_id" ), inverseJoinColumns =  @JoinColumn (name = "permission_id") )
-    private Set<PermisionEntity> permisionList = new HashSet<>();
+    private Set<PermissionEntity> permisionList = new HashSet<>();
 }

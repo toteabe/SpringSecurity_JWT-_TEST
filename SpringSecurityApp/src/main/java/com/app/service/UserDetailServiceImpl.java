@@ -33,16 +33,16 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 .forEach(roleEntity -> authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(roleEntity.getRoleEnum().name()))));
 
         // ahora los roles
-        userEntity.getRoles().forEach(roleEntity ->
-                roleEntity.getPermisionList().forEach(permision ->
-                        authorityList.add(new SimpleGrantedAuthority(permision.getName()))
-                )
-        );
+//        userEntity.getRoles().forEach(roleEntity ->
+//                roleEntity.getPermisionList().forEach(permission ->
+//                        authorityList.add(new SimpleGrantedAuthority(permission.getName()))
+//                )
+//        );
 
         // otra manera
-//        userEntity.getRoles().stream()
-//                .flatMap(role -> role.getPermisionList().stream())
-//                .forEach(permision -> authorityList.add(new SimpleGrantedAuthority(permision.getName())));
+        userEntity.getRoles().stream()
+                .flatMap(role -> role.getPermisionList().stream())
+                .forEach(permision -> authorityList.add(new SimpleGrantedAuthority(permision.getName())));
 
 
 //        al final lo que estamos haciendo es iterar una lista que esta posse otra en ella

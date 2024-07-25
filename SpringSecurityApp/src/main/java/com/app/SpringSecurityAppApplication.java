@@ -1,6 +1,6 @@
 package com.app;
 
-import com.app.persistence.entity.PermisionEntity;
+import com.app.persistence.entity.PermissionEntity;
 import com.app.persistence.entity.RoleEntity;
 import com.app.persistence.entity.RoleEnum;
 import com.app.persistence.entity.UserEntity;
@@ -24,19 +24,19 @@ public class SpringSecurityAppApplication {
         return args -> {
 
             // Creando Permisos
-            PermisionEntity createPermission = PermisionEntity.builder()
+            PermissionEntity createPermission = PermissionEntity.builder()
                     .name("CREATE").build();
 
-            PermisionEntity deletePermission = PermisionEntity.builder()
+            PermissionEntity deletePermission = PermissionEntity.builder()
                     .name("DELETE").build();
 
-            PermisionEntity updatePermission = PermisionEntity.builder()
+            PermissionEntity updatePermission = PermissionEntity.builder()
                     .name("UPDATE").build();
 
-            PermisionEntity readPermission = PermisionEntity.builder()
+            PermissionEntity readPermission = PermissionEntity.builder()
                     .name("READ").build();
 
-            PermisionEntity reafactorPermission = PermisionEntity.builder()
+            PermissionEntity reafactorPermission = PermissionEntity.builder()
                     .name("REFACTOR").build();
 
             //Create Roles
@@ -88,7 +88,7 @@ public class SpringSecurityAppApplication {
                     .roles(Set.of(roleInvited))
                     .build();
 
-            userRepository.saveAll(Set.of(userCesar, userGabriel, userInvitado));
+            userRepository.saveAll(Set.of(userCesar , userGabriel, userInvitado));
         };
 
 
