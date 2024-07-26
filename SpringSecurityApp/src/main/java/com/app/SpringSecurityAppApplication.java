@@ -4,12 +4,13 @@ import com.app.persistence.entity.PermissionEntity;
 import com.app.persistence.entity.RoleEntity;
 import com.app.persistence.entity.RoleEnum;
 import com.app.persistence.entity.UserEntity;
-import com.app.persistence.entity.repository.UserRepository;
+import com.app.persistence.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -20,79 +21,95 @@ public class SpringSecurityAppApplication {
     }
 
     @Bean
-    CommandLineRunner intit(UserRepository userRepository) {
+    CommandLineRunner init(UserRepository userRepository) {
         return args -> {
-
-            // Creando Permisos
+            /* Create PERMISSIONS */
             PermissionEntity createPermission = PermissionEntity.builder()
-                    .name("CREATE").build();
-
-            PermissionEntity deletePermission = PermissionEntity.builder()
-                    .name("DELETE").build();
-
-            PermissionEntity updatePermission = PermissionEntity.builder()
-                    .name("UPDATE").build();
+                    .name("CREATE")
+                    .build();
 
             PermissionEntity readPermission = PermissionEntity.builder()
-                    .name("READ").build();
+                    .name("READ")
+                    .build();
 
-            PermissionEntity reafactorPermission = PermissionEntity.builder()
-                    .name("REFACTOR").build();
+            PermissionEntity updatePermission = PermissionEntity.builder()
+                    .name("UPDATE")
+                    .build();
 
-            //Create Roles
-            RoleEntity roleAdmin = RoleEntity.builder().roleEnum(RoleEnum.ADMIN)
-                    .permisionList(Set.of(createPermission, readPermission, deletePermission, updatePermission)).build();
+            PermissionEntity deletePermission = PermissionEntity.builder()
+                    .name("DELETE")
+                    .build();
+
+            PermissionEntity refactorPermission = PermissionEntity.builder()
+                    .name("REFACTOR")
+                    .build();
+
+            /* Create ROLES */
+            RoleEntity roleAdmin = RoleEntity.builder()
+                    .roleEnum(RoleEnum.ADMIN)
+                    .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
+                    .build();
 
             RoleEntity roleUser = RoleEntity.builder()
                     .roleEnum(RoleEnum.USER)
-                    .permisionList(Set.of(createPermission, readPermission))
+                    .permissionList(Set.of(createPermission, readPermission))
                     .build();
 
             RoleEntity roleInvited = RoleEntity.builder()
                     .roleEnum(RoleEnum.INVITED)
-                    .permisionList(Set.of(readPermission))
+                    .permissionList(Set.of(readPermission))
                     .build();
 
             RoleEntity roleDeveloper = RoleEntity.builder()
                     .roleEnum(RoleEnum.DEVELOPER)
-                    .permisionList(Set.of(readPermission, createPermission, reafactorPermission, updatePermission, deletePermission))
+                    .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission, refactorPermission))
                     .build();
 
-
-            //Creando  Usuarios
-
+            /* CREATE USERS */
             UserEntity userCesar = UserEntity.builder()
                     .username("Cesar")
-                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
-                    .roles(Set.of(roleDeveloper))
-                    .build();
-
-            UserEntity userGabriel = UserEntity.builder()
-                    .username("Gabriel")
-                    .password("1234")
-                    .isEnabled(true)
-                    .accountNoExpired(true)
-                    .accountNoLocked(true)
-                    .roles(Set.of(roleUser))
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleAdmin))
                     .build();
 
             UserEntity userInvitado = UserEntity.builder()
-                    .username("Invitado")
-                    .password("12345")
+                    .username("Usuario")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleUser))
+                    .build();
+
+            UserEntity userAndrea = UserEntity.builder()
+                    .username("Andrea")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
+                    .isEnabled(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
                     .roles(Set.of(roleInvited))
                     .build();
 
-            userRepository.saveAll(Set.of(userCesar , userGabriel, userInvitado));
+            UserEntity userAnyi = UserEntity.builder()
+                    .username("Anyi")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
+                    .isEnabled(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleDeveloper))
+                    .build();
+
+            userRepository.saveAll(List.of(userCesar, userInvitado, userAndrea, userAnyi));
         };
-
-
     }
 }
+
 
 
