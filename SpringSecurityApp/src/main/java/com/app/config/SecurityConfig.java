@@ -78,4 +78,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    public static void main(String[] args) {
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        String password = "1234";
+//        String passwordEncoded = bCryptPasswordEncoder.encode(password);
+//        System.out.println(passwordEncoded);
+//    }
 }
