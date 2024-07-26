@@ -20,6 +20,13 @@ public class SpringSecurityAppApplication {
         SpringApplication.run(SpringSecurityAppApplication.class, args);
     }
 
+
+    //Iniciando la aplicacion con datos precargados
+    //CommandLineRunner, se ejecuta al iniciar la aplicacion
+    //UserRepository, para guardar los datos en la base de datos
+    //init, metodo que se ejecuta al iniciar la aplicacion
+    //args, argumentos que se pasan al iniciar la aplicacion
+    //PermissionEntity, entidad que representa los permisos
     @Bean
     CommandLineRunner init(UserRepository userRepository) {
         return args -> {
@@ -87,7 +94,7 @@ public class SpringSecurityAppApplication {
                     .build();
 
             UserEntity userAndrea = UserEntity.builder()
-                    .username("Ana")
+                    .username("Andrea")
                     .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
@@ -97,7 +104,7 @@ public class SpringSecurityAppApplication {
                     .build();
 
             UserEntity userAnyi = UserEntity.builder()
-                    .username("Ana")
+                    .username("Anyi")
                     .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
