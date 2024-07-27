@@ -21,12 +21,14 @@ public class SpringSecurityAppApplication {
     }
 
 
-    //Iniciando la aplicacion con datos precargados
-    //CommandLineRunner, se ejecuta al iniciar la aplicacion
-    //UserRepository, para guardar los datos en la base de datos
-    //init, metodo que se ejecuta al iniciar la aplicacion
-    //args, argumentos que se pasan al iniciar la aplicacion
-    //PermissionEntity, entidad que representa los permisos
+    /* Iniciando la aplicacion con datos precargados
+        CommandLineRunner, se ejecuta al iniciar la aplicacion
+        UserRepository, para guardar los datos en la base de datos
+        init, metodo que se ejecuta al iniciar la aplicacion
+        args, argumentos que se pasan al iniciar la aplicacion
+        PermissionEntity, entidad que representa los permisos
+    */
+
     @Bean
     CommandLineRunner init(UserRepository userRepository) {
         return args -> {

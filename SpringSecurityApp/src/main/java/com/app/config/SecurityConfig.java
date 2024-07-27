@@ -31,7 +31,6 @@ import java.util.List;
 public class SecurityConfig {
 
     /*
-    *  Sujeto a cambios , cesarCastillo
     *
     * Representamos la configuración de seguridad de la aplicación
     * Siguiedo el principio de seguridad por roles, se configura la seguridad de la aplicación
@@ -47,10 +46,31 @@ public class SecurityConfig {
     * El SimpleGrantedAuthority es un objeto que representa un rol o permiso
     * y el User es un objeto que representa un usuario
     *
-    *
-    *
-    *
     * */
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity
+//                .csrf(csrf -> csrf.disable())
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(http -> {
+//                    // Configurar los endpoints publicos
+//                    http.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
+//
+//                    // Configurar los endpoints privados
+//                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER");
+//                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyAuthority("REFACTOR");
+//
+//                    // Configurar el resto de endpoint - NO ESPECIFICADOS
+//                    http.anyRequest().denyAll();
+//                })
+//                .build();
+//    }
+
+/*Asiganando permisis con Anotaciones @PreAuthorize  directo en el Controller
+* recordar que para ello debe estar habilitado el @EnableMethodSecurity
+* */
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -58,29 +78,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    // Configurar los endpoints publicos
-                    http.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
-
-                    // Configurar los endpoints privados
-                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER");
-                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyAuthority("REFACTOR");
-
-                    // Configurar el resto de endpoint - NO ESPECIFICADOS
-                    http.anyRequest().denyAll();
-                })
                 .build();
     }
-
-//Con Anotaciones @PreAuthorize en el Controller
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity
-//                .csrf(csrf -> csrf.disable())
-//                .httpBasic(Customizer.withDefaults())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .build();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
