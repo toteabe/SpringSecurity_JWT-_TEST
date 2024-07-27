@@ -85,8 +85,8 @@ public class SpringSecurityAppApplication {
                     .roles(Set.of(roleAdmin))
                     .build();
 
-            UserEntity userInvitado = UserEntity.builder()
-                    .username("Usuario")
+            UserEntity userGabriel = UserEntity.builder()
+                    .username("Gabriel")
                     .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
@@ -105,8 +105,8 @@ public class SpringSecurityAppApplication {
                     .roles(Set.of(roleInvited))
                     .build();
 
-            UserEntity userAnyi = UserEntity.builder()
-                    .username("Anyi")
+            UserEntity userDev = UserEntity.builder()
+                    .username("Dev")
                     .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
@@ -115,7 +115,7 @@ public class SpringSecurityAppApplication {
                     .roles(Set.of(roleDeveloper))
                     .build();
 
-            userRepository.saveAll(List.of(userCesar, userInvitado, userAndrea, userAnyi));
+            userRepository.saveAll(List.of(userCesar, userGabriel, userAndrea,userDev  ));
         };
     }
 }

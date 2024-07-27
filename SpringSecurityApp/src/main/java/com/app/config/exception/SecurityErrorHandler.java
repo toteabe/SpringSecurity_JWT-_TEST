@@ -22,6 +22,23 @@ public class SecurityErrorHandler implements MethodAuthorizationDeniedHandler {
 *  con @PreAuthorize("hasRole('ROLE')") o @PreAuthorize("hasAnyRole('ADMIN ','DEVELOPER')") etc
 * con el metodo  el requestMarchers no me funciona y no se porque
 * por lo que uso las anotaciones
+*
+* OBSERVACIONES:
+* 1. Se debe implementar la interfaz MethodAuthorizationDeniedHandler
+* 2. Se debe sobreescribir el método handleDeniedInvocation
+* 3. Se debe devolver un mensaje personalizado
+* 4. Se debe devolver un String convertido a un objeto JSON
+* 5. Se debe usar la anotación @Component para que Spring lo reconozca como un Bean
+* 6. Se debe usar la anotación @Slf4j para el log
+* 7. Se debe usar el método log.info para loguear los mensajes
+* 8. Se debe usar la clase ObjectMapper para convertir un objeto a un String
+* 9. Se debe usar la clase ObjectNode para crear un objeto JSON
+* 10. Se debe usar el método put de la clase ObjectNode para agregar propiedades al objeto JSON
+* 11. Se debe usar el método writeValueAsString de la clase ObjectMapper para convertir un objeto a un String
+* 12. Se debe usar el método toString de la clase MethodInvocation para obtener la información del método
+* 13. Se debe usar el método isGranted de la clase AuthorizationResult para saber si el usuario tiene permisos
+*  Al implentar mi propia anotacion para los preauthorize  funcionan correctamente
+*
 * */
     @Override
     public Object handleDeniedInvocation(MethodInvocation methodInvocation, AuthorizationResult authorizationResult) {

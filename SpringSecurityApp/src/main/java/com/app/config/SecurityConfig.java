@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -31,22 +32,22 @@ import java.util.List;
 public class SecurityConfig {
 
     /*
-    *
-    * Representamos la configuración de seguridad de la aplicación
-    * Siguiedo el principio de seguridad por roles, se configura la seguridad de la aplicación
-    * Primero el SecurityFilterChain, que es el encargado de configurar la seguridad de la aplicación
-    * que debe ser un Bean de Spring,  esta delega  al AuthenticationManager
-    * el AuthenticationManager delega en el AuthenticationProvider
-    * el AuthenticationProvider delega en UserDetailsService y PasswordEncoder.
-    *
-    * de ahi UserDetailsService que es un servicio que implementa la interfaz UserDetailsService
-    * busca en la base de datos el  usuario y sus roles y permisos
-    * y el PasswordEncoder para comparar la contraseña encriptada
-    * usamos listas de SimpleGrantedAuthority para cargar los roles y permisos
-    * El SimpleGrantedAuthority es un objeto que representa un rol o permiso
-    * y el User es un objeto que representa un usuario
-    *
-    * */
+     *
+     * Representamos la configuración de seguridad de la aplicación
+     * Siguiedo el principio de seguridad por roles, se configura la seguridad de la aplicación
+     * Primero el SecurityFilterChain, que es el encargado de configurar la seguridad de la aplicación
+     * que debe ser un Bean de Spring,  esta delega  al AuthenticationManager
+     * el AuthenticationManager delega en el AuthenticationProvider
+     * el AuthenticationProvider delega en UserDetailsService y PasswordEncoder.
+     *
+     * de ahi UserDetailsService que es un servicio que implementa la interfaz UserDetailsService
+     * busca en la base de datos el  usuario y sus roles y permisos
+     * y el PasswordEncoder para comparar la contraseña encriptada
+     * usamos listas de SimpleGrantedAuthority para cargar los roles y permisos
+     * El SimpleGrantedAuthority es un objeto que representa un rol o permiso
+     * y el User es un objeto que representa un usuario
+     *
+     * */
 
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -60,6 +61,7 @@ public class SecurityConfig {
 //
 //                    // Configurar los endpoints privados
 //                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER");
+//                    http.requestMatchers(HttpMethod.PUT, "/auth/put").hasAnyRole("ADMIN", "DEVELOPER");
 //                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyAuthority("REFACTOR");
 //
 //                    // Configurar el resto de endpoint - NO ESPECIFICADOS
@@ -68,9 +70,9 @@ public class SecurityConfig {
 //                .build();
 //    }
 
-/*Asiganando permisis con Anotaciones @PreAuthorize  directo en el Controller
-* recordar que para ello debe estar habilitado el @EnableMethodSecurity
-* */
+    /*Asiganando permisis con Anotaciones @PreAuthorize  directo en el Controller
+     * recordar que para ello debe estar habilitado el @EnableMethodSecurity
+     * */
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -98,6 +100,21 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+     /* PrePostTemplateDefaults
+        *  Esta clase es un Bean de Spring que se encarga de configurar los permisos por defecto y
+        * personalizados como el permissionNeed que se creo en el paquete config
+        * El bean se encarga de configurar los permisos por defecto y personalizados
+        * desactivando los permisos por defecto y activando los permisos personalizados
+        * en caso de  usar los predeterminados de Spring se debe desactivar los personalizados
+        * incluyendo el bean en la clase SecurityConfig (PrePostTemplateDefaults)
+     *  */
+
+    @Bean
+    public PrePostTemplateDefaults prePostTemplateDefaults() {
+        return new PrePostTemplateDefaults();
+    }
+
 
 //    public static void main(String[] args) {
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
