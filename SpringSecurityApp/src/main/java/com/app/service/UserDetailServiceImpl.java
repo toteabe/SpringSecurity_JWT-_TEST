@@ -15,7 +15,20 @@ import java.util.List;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
-
+/*
+* UserDetailServiceImpl, implementa la interfaz UserDetailsService
+* para cargar los datos del usuario y sus roles y permisos
+* para enviarlos al AuthenticationManager (creo)
+* UserEntity, entidad que representa al usuario
+* UserRepository, repositorio que se encarga de buscar al usuario
+* loadUserByUsername, metodo que carga los datos del usuario
+* username, nombre de usuario
+* UsernameNotFoundException, excepcion que se lanza si el usuario no existe
+* authorityList, lista de roles y permisos
+* userEntity, objeto que representa al usuario
+*
+*
+* */
     @Autowired
     private UserRepository userRepository;
 

@@ -101,13 +101,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-     /* PrePostTemplateDefaults
-        *  Esta clase es un Bean de Spring que se encarga de configurar los permisos por defecto y
-        * personalizados como el permissionNeed que se creo en el paquete config
-        * El bean se encarga de configurar los permisos por defecto y personalizados
-        * desactivando los permisos por defecto y activando los permisos personalizados
-        * en caso de  usar los predeterminados de Spring se debe desactivar los personalizados
-        * incluyendo el bean en la clase SecurityConfig (PrePostTemplateDefaults)
+    /* PrePostTemplateDefaults
+     *  Esta clase es un Bean de Spring que se encarga de configurar los permisos por defecto y
+     * personalizados como el roleNeed que se creo en el paquete config
+     * El bean se encarga de configurar los permisos por defecto y personalizados
+     * desactivando los permisos por defecto y activando los permisos personalizados
+     * en caso de  usar los predeterminados de Spring se debe desactivar los personalizados
+     * incluyendo el bean en la clase SecurityConfig (PrePostTemplateDefaults)
      *  */
 
     @Bean
