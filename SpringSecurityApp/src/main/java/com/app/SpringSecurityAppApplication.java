@@ -93,7 +93,6 @@ public class SpringSecurityAppApplication {
                     .accountNoLocked(true)
                     .credentialNoExpired(true)
                     .roles(Set.of(roleUser))
-                    .roles(Set.of(roleUser))
                     .build();
 
             UserEntity userAndrea = UserEntity.builder()
