@@ -7,7 +7,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -60,8 +59,8 @@ public class SecurityConfig {
 //                    http.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
 //
 //                    // Configurar los endpoints privados
-//                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER");
-//                    http.requestMatchers(HttpMethod.PUT, "/auth/put").hasAnyRole("ADMIN", "DEVELOPER");
+//                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER", "USER");
+//                    http.requestMatchers(HttpMethod.PUT, "/auth/put").hasAnyRole("ADMIN", "DEVELOPER", "USER");
 //                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyAuthority("REFACTOR");
 //
 //                    // Configurar el resto de endpoint - NO ESPECIFICADOS
@@ -110,10 +109,10 @@ public class SecurityConfig {
      * incluyendo el bean en la clase SecurityConfig (PrePostTemplateDefaults)
      *  */
 
-    @Bean
-    public PrePostTemplateDefaults prePostTemplateDefaults() {
-        return new PrePostTemplateDefaults();
-    }
+//    @Bean
+//    public PrePostTemplateDefaults prePostTemplateDefaults() {
+//        return new PrePostTemplateDefaults();
+//    }
 
 
 //    public static void main(String[] args) {

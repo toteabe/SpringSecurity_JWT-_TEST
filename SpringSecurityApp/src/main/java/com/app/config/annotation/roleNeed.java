@@ -19,10 +19,12 @@ import java.lang.annotation.Target;
   * en la clase SecurityConfig para que funcione correctamente
   * en concreto el PrePostTemplateDefaults.
  * */
+/*Demasiada verbosidad, usar lo que ya existe. ya sabes que puedes hacer esto
+* */
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
- @PreAuthorize("hasAnyRole('{value}')")
-public @interface roleNeed {
-    String[] value();
-}
+//@Retention(RetentionPolicy.RUNTIME)
+//@Target(ElementType.METHOD)
+// @PreAuthorize("hasAnyRole('{value}')")
+//public @interface roleNeed {
+//    String[] value();
+//}
