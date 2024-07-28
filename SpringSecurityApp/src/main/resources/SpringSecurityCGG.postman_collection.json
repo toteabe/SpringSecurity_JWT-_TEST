@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "743f504c-8eab-4bd8-8024-805e5b6c7a0f",
+		"name": "SpringSecurityCGG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19764692"
+	},
+	"item": [
+		{
+			"name": "post",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "Cesar",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/auth/post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"post"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

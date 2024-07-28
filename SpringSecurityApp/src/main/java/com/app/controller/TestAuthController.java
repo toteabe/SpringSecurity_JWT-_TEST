@@ -19,7 +19,9 @@ public class TestAuthController {
     }
 
     @PostMapping("/post")
-    @roleNeed({"USER", "ADMIN"})
+    //@roleNeed({"USER", "ADMIN"})
+    //Yo no wrappearia la anotación @PreAuthorize en otra anotacion, java es verbosidad..
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public String helloPost() {
         return "Hello World - POST";
     }
