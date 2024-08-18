@@ -1,6 +1,9 @@
 package com.app.config;
 
+import com.app.config.filter.JwtTokenValidator;
 import com.app.service.UserDetailServiceImpl;
+import com.app.util.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,26 +16,21 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private  JwtUtils JwtUtils;
     /*
-     *
      * Representamos la configuración de seguridad de la aplicación
+     *
      * Siguiedo el principio de seguridad por roles, se configura la seguridad de la aplicación
      * Primero el SecurityFilterChain, que es el encargado de configurar la seguridad de la aplicación
      * que debe ser un Bean de Spring,  esta delega  al AuthenticationManager
@@ -48,39 +46,39 @@ public class SecurityConfig {
      *
      * */
 
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider) throws Exception {
+        return httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(http -> {
+                    // EndPoints publicos
+                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
+
+                    // EndPoints Privados
+                    http.requestMatchers(HttpMethod.GET, "/method/get").hasAnyRole("ADMIN", "DEVELOPER" , "USER"); ;
+                    http.requestMatchers(HttpMethod.POST, "/method/post").hasAnyRole("ADMIN", "DEVELOPER" , "USER");
+                    http.requestMatchers(HttpMethod.DELETE, "/method/delete").hasAnyRole("ADMIN", "DEVELOPER");
+                    http.requestMatchers(HttpMethod.PUT, "/method/put").hasAuthority("UPDATE");
+
+                    http.anyRequest().denyAll();
+                })
+                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
+                .build();
+    }
+
+    /*Asiganando permisos con Anotaciones @PreAuthorize  directo en el Controller
+     * recordar que para ello debe estar habilitado el @EnableMethodSecurity
+     * */
+//
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 //        return httpSecurity
 //                .csrf(csrf -> csrf.disable())
 //                .httpBasic(Customizer.withDefaults())
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(http -> {
-//                    // Configurar los endpoints publicos
-//                    http.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
-//
-//                    // Configurar los endpoints privados
-//                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER", "USER");
-//                    http.requestMatchers(HttpMethod.PUT, "/auth/put").hasAnyRole("ADMIN", "DEVELOPER", "USER");
-//                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyAuthority("REFACTOR");
-//
-//                    // Configurar el resto de endpoint - NO ESPECIFICADOS
-//                    http.anyRequest().denyAll();
-//                })
 //                .build();
 //    }
-
-    /*Asiganando permisis con Anotaciones @PreAuthorize  directo en el Controller
-     * recordar que para ello debe estar habilitado el @EnableMethodSecurity
-     * */
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .build();
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
