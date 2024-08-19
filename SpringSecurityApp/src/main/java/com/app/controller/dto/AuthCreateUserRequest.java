@@ -12,5 +12,4 @@ public record AuthCreateUserRequest(@NotBlank String username,
 
 
 
-
 }
