@@ -1,0 +1,28 @@
+@import url('componentes.css');
+
+body{
+    background-color: #282c34;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+.container{
+    padding-top: 20%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+   flex-direction: column;
+
+}
+
+h1{
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+
+
+

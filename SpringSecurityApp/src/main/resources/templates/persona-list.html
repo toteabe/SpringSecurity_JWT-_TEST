@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Personas</title>
+    <link rel="stylesheet" href="/lista.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+<div class="titulo">
+    <h1>Lista de personas</h1>
+</div>
+<table border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+        <th>Acciones</th>
+    </tr>
+    <tr th:each="persona : ${personas}">
+        <td th:text="${persona.nombre}"></td>
+        <td th:text="${persona.apellido}"></td>
+        <td th:text="${persona.email}"></td>
+        <td th:text="${persona.telefono}"></td>
+        <td th:text="${persona.direccion}"></td>
+        <td class="acciones">
+            <a  class="button-3b"     th:href="@{'/personas/actualizar/' + ${persona.id}}">Editar</a>
+<!--            <a class="button-3red" id="deleteButton" th:href="@{'/personas/eliminar/' + ${persona.id}}">Eliminar</a>-->
+            <a class="button-3red deleteButton" th:href="@{'/personas/eliminar/' + ${persona.id}}">Eliminar</a>
+
+        </td>
+    </tr>
+</table>
+
+<div class="contenedor-botones">
+    <a class="button-3" th:href="@{/personas/nuevo}">Nuevo</a>
+    <a   class="button-3" th:href="@{/}">Inicio</a>
+</div>
+
+
+<script th:src="@{/confirmDelete.js}"></script>
+</body>
+</html>

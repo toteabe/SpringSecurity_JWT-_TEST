@@ -27,7 +27,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
-    private  JwtUtils JwtUtils;
+    private JwtUtils JwtUtils;
     /*
      * Representamos la configuración de seguridad de la aplicación
      *
@@ -46,39 +46,44 @@ public class SecurityConfig {
      *
      * */
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider) throws Exception {
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    // EndPoints publicos
-                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-
-                    // EndPoints Privados
-                    http.requestMatchers(HttpMethod.GET, "/method/get").hasAnyRole("ADMIN", "DEVELOPER" , "USER"); ;
-                    http.requestMatchers(HttpMethod.POST, "/method/post").hasAnyRole("ADMIN", "DEVELOPER" , "USER");
-                    http.requestMatchers(HttpMethod.DELETE, "/method/delete").hasAnyRole("ADMIN", "DEVELOPER");
-                    http.requestMatchers(HttpMethod.PUT, "/method/put").hasAuthority("UPDATE");
-
-                    http.anyRequest().denyAll();
-                })
-                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
-                .build();
-    }
+//    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider) throws Exception {
+//        return httpSecurity
+//                .csrf(csrf -> csrf.disable())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(http -> {
+//                    // EndPoints publicos
+//                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
+//                    http.requestMatchers(HttpMethod.GET, "/personas").permitAll();
+//
+//                    // EndPoints Privados
+//                    http.requestMatchers(HttpMethod.GET, "/personas/nuevo").hasAnyRole("ADMIN", "DEVELOPER", "USER");
+//
+//                    http.requestMatchers(HttpMethod.POST, "/personas/save").hasAnyRole("ADMIN", "DEVELOPER", "USER");
+////                    http.requestMatchers(HttpMethod.GET, "/personas/eliminar/").hasAnyRole("ADMIN", "DEVELOPER");
+//                    http.requestMatchers(HttpMethod.GET, "/personas/eliminar/").hasAnyRole("INVITED");
+//
+//                    http.requestMatchers(HttpMethod.GET, "/personas/actualizar/").hasAuthority("UPDATE");
+//
+//                    http.anyRequest().denyAll();
+//                })
+//                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
+//                .build();
+//    }
 
     /*Asiganando permisos con Anotaciones @PreAuthorize  directo en el Controller
      * recordar que para ello debe estar habilitado el @EnableMethodSecurity
      * */
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity
-//                .csrf(csrf -> csrf.disable())
-//                .httpBasic(Customizer.withDefaults())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .build();
-//    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
+                .build();
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

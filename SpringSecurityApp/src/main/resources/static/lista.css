@@ -1,0 +1,74 @@
+@import url('componentes.css');
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #282c34;
+    height: 100vh;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+}
+
+td {
+    text-align: center;
+    color: white;
+}
+
+table {
+    margin-top: 50px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #bdb4b4f3;
+    padding: 10px;
+}
+
+th {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+
+.acciones{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.contenedor-botones{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px;
+}
+
+
+.swal2-popup {
+    background-color: #282c34 !important;
+    color: #ffffff;
+    border-radius: 10px;
+}
+.swal2-header {
+    background-color: #282c34 !important;
+}
+.swal2-title {
+    color: #ffffff;
+}
+.swal2-content {
+    color: #ffffff;
+}
+.swal2-confirm {
+    background-color: #3085d6 !important;
+    border: none;
+}
+.swal2-cancel {
+    background-color: #d33 !important;
+    border: none;
+}
