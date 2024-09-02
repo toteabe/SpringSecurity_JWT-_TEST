@@ -115,8 +115,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
         String password = authCreateUser.password();
         List<String> roleRequest = authCreateUser.roleRequest().roleListName();
 
-        Set<RoleEntity> roleEntitySet = roleRepository.findRoleEntitiesByRoleEnumIn(roleRequest)
+       Set<RoleEntity> roleEntitySet = roleRepository.findRoleEntitiesByRoleEnumIn(roleRequest)
                 .stream().collect(Collectors.toSet());
+
+
 
         if (roleEntitySet.isEmpty()) {
             throw new IllegalArgumentException("The role specified does not exist");

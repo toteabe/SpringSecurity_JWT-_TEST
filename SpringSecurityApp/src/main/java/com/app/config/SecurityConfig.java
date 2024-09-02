@@ -15,11 +15,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import static jakarta.servlet.DispatcherType.ERROR;
+import static jakarta.servlet.DispatcherType.FORWARD;
 
 @Configuration
 @EnableWebSecurity
@@ -46,44 +50,54 @@ public class SecurityConfig {
      *
      * */
 
-//    @Bean
-//    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider) throws Exception {
-//        return httpSecurity
-//                .csrf(csrf -> csrf.disable())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(http -> {
-//                    // EndPoints publicos
-//                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-//                    http.requestMatchers(HttpMethod.GET, "/personas").permitAll();
-//
-//                    // EndPoints Privados
-//                    http.requestMatchers(HttpMethod.GET, "/personas/nuevo").hasAnyRole("ADMIN", "DEVELOPER", "USER");
-//
-//                    http.requestMatchers(HttpMethod.POST, "/personas/save").hasAnyRole("ADMIN", "DEVELOPER", "USER");
-////                    http.requestMatchers(HttpMethod.GET, "/personas/eliminar/").hasAnyRole("ADMIN", "DEVELOPER");
-//                    http.requestMatchers(HttpMethod.GET, "/personas/eliminar/").hasAnyRole("INVITED");
-//
-//                    http.requestMatchers(HttpMethod.GET, "/personas/actualizar/").hasAuthority("UPDATE");
-//
-//                    http.anyRequest().denyAll();
-//                })
-//                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
-//                .build();
-//    }
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity/*, AuthenticationProvider authenticationProvider*/) throws Exception {
+        return httpSecurity
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(http -> {
+
+                    //Ver https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html
+                    http.dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
+                            //PARA LAS PETICIONES preflight OPTIONS DEL NAVEGADOR :p
+                            //Ver https://stackoverflow.com/questions/76682586/allow-cors-with-spring-security-6-1-1-with-authenticated-requests
+
+                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .requestMatchers("/auth-cookie/**").permitAll()
+
+                    // EndPoints publicos
+//                    .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+//                    .requestMatchers(HttpMethod.GET, "/personas").permitAll()
+
+                    // EndPoints Privados
+                    .requestMatchers(HttpMethod.GET, "/personas/nuevo").hasAnyRole("ADMIN", "DEVELOPER", "USER")
+
+                    .requestMatchers(HttpMethod.POST, "/personas/save").hasAnyRole("ADMIN", "DEVELOPER", "USER")
+//                    http.requestMatchers(HttpMethod.GET, "/personas/eliminar/").hasAnyRole("ADMIN", "DEVELOPER");
+                    .requestMatchers(HttpMethod.GET, "/personas/eliminar/").hasAnyRole("INVITED")
+
+                    .requestMatchers(HttpMethod.GET, "/personas/actualizar/").hasAuthority("UPDATE")
+
+                    .anyRequest().authenticated();
+                })
+                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
+                .build();
+    }
 
     /*Asiganando permisos con Anotaciones @PreAuthorize  directo en el Controller
      * recordar que para ello debe estar habilitado el @EnableMethodSecurity
      * */
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
-                .build();
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity
+//                .csrf(csrf -> csrf.disable())
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .addFilterBefore(new JwtTokenValidator(JwtUtils), BasicAuthenticationFilter.class)
+//                .build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

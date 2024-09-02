@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/personas")
+@CrossOrigin("*")
 public class PersonaController {
 
     @Autowired
