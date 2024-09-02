@@ -2,6 +2,7 @@ package com.app.controller;
 
 import com.app.config.filter.JwtTokenValidator;
 import com.app.config.model.Persona;
+import com.app.controller.dto.AuthCreateRoleRequest;
 import com.app.controller.dto.AuthCreateUserRequest;
 import com.app.controller.dto.AuthLoginRequest;
 import com.app.controller.dto.AuthResponse;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Controller
 @RequestMapping("/auth-cookie")
@@ -49,12 +51,15 @@ public class AuthenticationCookieJWTController {
 
         servletResponse.addCookie(authCookie);
 
-        return "personas";
+        return "redirect:/personas";
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register  (@Valid AuthCreateUserRequest userRequest ) {
-        return new ResponseEntity<>(this.userDetailService.createUser(userRequest), HttpStatus.CREATED);
+        AuthCreateUserRequest authCreateUserRequest = new AuthCreateUserRequest(userRequest.username()
+                                                            , userRequest.password()
+                                                            , new AuthCreateRoleRequest(List.of("ADMIN")));
+        return new ResponseEntity<>(this.userDetailService.createUser(authCreateUserRequest), HttpStatus.CREATED);
     }
 
 }
